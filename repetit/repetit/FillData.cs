@@ -24,7 +24,7 @@ namespace repetit
 		}
 
 		[Test]
-		public void AddLessonsForAllPupils()
+		public void AddLessonsForNextWeek()
 		{
 			Login();
 			Thread.Sleep(500);
@@ -151,7 +151,7 @@ namespace repetit
 		}
 
 		[Test]
-		public void DeleteAllLessonsForWeek()
+		public void DeleteAllLessonsForNextWeek()
 		{
 			Login();
 			Thread.Sleep(500);
@@ -159,7 +159,7 @@ namespace repetit
 			driver.Url = "https://repetit.ru/teacher/schedule.aspx";
 			driver.Manage().Window.Maximize();
 
-			DeleteAllLessonsForSelectedWeek(3);
+			DeleteAllLessonsForSelectedWeek(1);
 		}
 
 		private void DeleteAllLessonsForSelectedWeek(int weekIndex)
@@ -177,6 +177,7 @@ namespace repetit
 				wait.Until(ExpectedConditions.StalenessOf(timetable));
 			}
 
+			Thread.Sleep(1000);
 			DeleteAllLessons();
 		}
 
