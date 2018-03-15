@@ -72,8 +72,10 @@ namespace repetit
 
 		private void Login()
 		{
-			var login = "pro100dimon";
-			var pass = "pro100rep";
+			var login = "";
+			var pass = "";
+
+			if (login == "" || pass == "") { throw new System.ArgumentException("Please provide correct login data"); }
 
 			driver.Url = "https://repetit.ru";
 			driver.FindElement(By.CssSelector("div.cabinet")).Click();
