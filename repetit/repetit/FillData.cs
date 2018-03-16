@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -204,8 +205,8 @@ namespace repetit
 
 		private void Login()
 		{
-			var login = "pro100dimon";
-			var pass = "pro100rep";
+			var login = ConfigurationManager.AppSettings["login"];
+			var pass = ConfigurationManager.AppSettings["password"];
 
 			if (login == "" || pass == "") { throw new System.ArgumentException("Please provide correct login data"); }
 
