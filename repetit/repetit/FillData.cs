@@ -38,7 +38,7 @@ namespace repetit
 			driver.FindElement(By.CssSelector("input.pupils-list-filter")).Click();
 			var pupilsCount = driver.FindElements(By.CssSelector("div.pupil-card.schedule-required")).Count;
 
-			var pupils = CreatePupils();
+			var pupils = Tools.CreatePupils();
 
 			for (var i = 0; i < pupilsCount; i++)
 			{
@@ -54,7 +54,7 @@ namespace repetit
 				Thread.Sleep(300);
 
 				var currentMonth = DateTime.Today.Month;
-				var pDay = NextMonday().AddDays(pCurrent.DayOfWeek-1);
+				var pDay = Tools.NextMonday().AddDays(pCurrent.DayOfWeek-1);
 
 				var pastCount = driver.FindElements(By.CssSelector(".date.past")).Count;
 				var pDaySelector = String.Concat(".date",$":nth-child({pDay.Day + pastCount})");
@@ -79,7 +79,6 @@ namespace repetit
 				Thread.Sleep(300);
 			}
 		}
-
 
 		[Test]
 		public void DeleteAllLessonsForNextWeek()
