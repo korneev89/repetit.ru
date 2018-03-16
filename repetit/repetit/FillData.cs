@@ -177,7 +177,7 @@ namespace repetit
 				wait.Until(ExpectedConditions.StalenessOf(timetable));
 			}
 
-			Thread.Sleep(1000);
+			Thread.Sleep(5000);
 			DeleteAllLessons();
 		}
 
