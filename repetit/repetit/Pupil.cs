@@ -18,7 +18,12 @@ namespace repetit
 			{
 				if (pupil.Name == name) { return pupil; }
 			}
-			return null;
+			return new Pupil
+			{
+				Name = "default",
+				DayOfWeek = 1,
+				TimeStart = 19
+			}; 
 		}
 	}
 }

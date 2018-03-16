@@ -20,8 +20,16 @@ namespace repetit
 		{
 			//ChromeOptions options = new ChromeOptions();
 			driver = new ChromeDriver();
-			wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+			wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
 			//Debug.WriteLine(options);
+		}
+
+		[Test]
+		public void LoginOnly()
+		{
+			Login();
+			// 15 minutes
+			Thread.Sleep(15*60*1000);
 		}
 
 		[Test]
@@ -40,6 +48,8 @@ namespace repetit
 
 			var pupils = Tools.CreatePupils();
 
+			var defaultCount = 0;
+
 			for (var i = 0; i < pupilsCount; i++)
 			{
 				var pSel = $"div.pupil-card.schedule-required:nth-child({i + 1})";
@@ -48,6 +58,8 @@ namespace repetit
 				var pName = driver.FindElement(By.CssSelector(pSel)).FindElement(By.CssSelector(".pupil-name")).Text;
 
 				var pCurrent = Pupil.FindByName(pupils, pName);
+
+				if (pCurrent.Name == "default") { defaultCount++; }
 
 				driver.FindElement(By.CssSelector(pSel))
 					.FindElement(By.CssSelector("span.add-lesson span")).Click();
@@ -76,10 +88,25 @@ namespace repetit
 
 				driver.FindElement(By.CssSelector("button.save"))
 					.Click();
+
+				var info = $"Ученик {pCurrent.Name} был добавлен на {pDay.Day} число в {pCurrent.TimeStart} часов";
+				Console.WriteLine(info);
 				Thread.Sleep(300);
+			}
+
+			Console.WriteLine("");
+			Console.WriteLine($"Добавлены занятия для {pupilsCount} учеников на следующую неделю");
+
+			if (defaultCount>0)
+			{
+				var mess = $"Для {defaultCount} ученик(а)ов нет информации о времени занятий, он(и) был(и) добавлен(ы) на понедельник на 19:00";
+				Assert.Warn(mess);
+				Console.WriteLine("ВНИМАНИЕ !!!");
+				Console.WriteLine(mess);
 			}
 		}
 
+		//[Test, Retry(3)]
 		[Test]
 		public void DeleteAllLessonsForNextWeek()
 		{
@@ -97,7 +124,9 @@ namespace repetit
 			var week = weekIndex;
 
 			// scroll to target week
-			wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector(".timetable-body")));
+			wait.Until(ExpectedConditions.ElementExists(By.CssSelector(".timetable-body")));
+			Thread.Sleep(1000);
+
 			for (var i = 0; i < week; i++)
 			{
 				wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("span.next")));
@@ -107,30 +136,42 @@ namespace repetit
 				wait.Until(ExpectedConditions.StalenessOf(timetable));
 			}
 
-			wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("div.lesson")));
-			Thread.Sleep(500);
-			DeleteAllLessons();
+			try
+			{
+				wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("div.lesson")));
+				DeleteAllLessons();
+			}
+			catch (WebDriverTimeoutException)
+			{
+				Console.WriteLine("Занятий на следующей неделе не было (но это не точно)");
+				return;
+			}
 		}
 
 		private void DeleteAllLessons()
 		{
 			var lessonsCount = driver.FindElements(By.CssSelector("div.lesson")).Count;
-			Assert.Greater(lessonsCount, 0, $"Количество занятий на выбранной неделе равно {lessonsCount}");
-
 			for (var i = 0; i < lessonsCount; i++)
 			{
-				wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("div.lesson")));
 				var currentLesson = driver.FindElement(By.CssSelector("div.lesson"));
 
 				driver.FindElement(By.CssSelector("div.lesson")).Click();
 				wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("li.edit-lesson")));
+
+				var lesson = driver.FindElement(By.CssSelector(".schedule-popover .name")).Text;
+				var time = driver.FindElement(By.CssSelector(".schedule-popover .time")).Text;
 
 				driver.FindElement(By.CssSelector("li.edit-lesson")).Click();
 				wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("button.delete")));
 
 				driver.FindElement(By.CssSelector("button.delete")).Click();
 				wait.Until(ExpectedConditions.StalenessOf(currentLesson));
+
+				Console.WriteLine($"{lesson} - занятие {time} удалено");
 			}
+
+			Console.WriteLine("");
+			Console.WriteLine($"Все занятия({lessonsCount}) на следующей неделе удалены");
 		}
 
 		private void Login()

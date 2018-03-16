@@ -77,7 +77,5 @@ namespace repetit
 
 			return pupils;
 		}
-
-
 	}
 }
