@@ -11,8 +11,17 @@ namespace repetit
 		public static DateTime NextMonday()
 		{
 			DateTime today = DateTime.Today;
-			int daysUntilTuesday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
-			return today.AddDays(daysUntilTuesday);
+			if (today.DayOfWeek == DayOfWeek.Monday) { return today.AddDays(7); }
+			int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
+			return today.AddDays(daysUntilMonday);
+		}
+
+		public static DateTime ThisMonday()
+		{
+			DateTime today = DateTime.Today;
+			if (today.DayOfWeek == DayOfWeek.Monday) { return today; }
+			int daysAfterMonday = (int)today.DayOfWeek - (int)DayOfWeek.Monday;
+			return today.AddDays(-daysAfterMonday);
 		}
 
 		public static List<Pupil> CreatePupils()
