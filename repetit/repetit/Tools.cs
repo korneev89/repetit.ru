@@ -76,6 +76,13 @@ namespace repetit
 				TimeStart = 16
 			};
 
+			var p8 = new Pupil
+			{
+				Name = "Глеб (Skype)",
+				DayOfWeek = 5,
+				TimeStart = 21
+			};
+
 			pupils.Add(p1);
 			pupils.Add(p2);
 			pupils.Add(p3);
@@ -83,6 +90,7 @@ namespace repetit
 			pupils.Add(p5);
 			pupils.Add(p6);
 			pupils.Add(p7);
+			pupils.Add(p8);
 
 			return pupils;
 		}
