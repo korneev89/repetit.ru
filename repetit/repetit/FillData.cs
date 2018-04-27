@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.IE;
 
 namespace repetit
 {
@@ -19,6 +20,7 @@ namespace repetit
 		public void Start()
 		{
 			//ChromeOptions options = new ChromeOptions();
+			//driver = new InternetExplorerDriver();
 			driver = new ChromeDriver();
 			wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
 			//Debug.WriteLine(options);

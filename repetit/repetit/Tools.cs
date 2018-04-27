@@ -27,11 +27,12 @@ namespace repetit
 		public static List<Pupil> CreatePupils()
 		{
 			var pupils = new List<Pupil>();
+
 			var p1 = new Pupil
 			{
-				Name = "Захар (Парк Победы)",
-				DayOfWeek = 3,
-				TimeStart = 20
+				Name = "Глеб (Skype)",
+				DayOfWeek = 5,
+				TimeStart = 21
 			};
 
 			var p2 = new Pupil
@@ -69,28 +70,13 @@ namespace repetit
 				TimeStart = 15
 			};
 
-			var p7 = new Pupil
-			{
-				Name = "Данил (Немчиновка)",
-				DayOfWeek = 6,
-				TimeStart = 16
-			};
-
-			var p8 = new Pupil
-			{
-				Name = "Глеб (Skype)",
-				DayOfWeek = 5,
-				TimeStart = 21
-			};
-
 			pupils.Add(p1);
 			pupils.Add(p2);
 			pupils.Add(p3);
 			pupils.Add(p4);
 			pupils.Add(p5);
 			pupils.Add(p6);
-			pupils.Add(p7);
-			pupils.Add(p8);
+
 
 			return pupils;
 		}
