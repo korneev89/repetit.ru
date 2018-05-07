@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Interactions;
 
 namespace repetit
 {
@@ -243,6 +244,12 @@ namespace repetit
 			{
 				var currentLesson = driver.FindElement(By.CssSelector("div.lesson"));
 
+				var addPupil = driver.FindElement(By.CssSelector("li:nth-child(3) > div"));
+				Actions actions = new Actions(driver);
+				actions.MoveToElement(addPupil);
+				actions.Perform();
+
+
 				driver.FindElement(By.CssSelector("div.lesson")).Click();
 				wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.CssSelector("li.edit-lesson")));
 
@@ -261,6 +268,7 @@ namespace repetit
 			Console.WriteLine("");
 			Console.WriteLine($"Все занятия({lessonsCount}) на следующей неделе удалены");
 		}
+
 
 		private void Login()
 		{

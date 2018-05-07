@@ -38,7 +38,7 @@ namespace repetit
 			var p2 = new Pupil
 			{
 				Name = "Егор (Павелецкая)",
-				DayOfWeek = 2,
+				DayOfWeek = 4,
 				TimeStart = 19
 			};
 
