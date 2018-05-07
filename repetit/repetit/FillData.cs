@@ -244,7 +244,7 @@ namespace repetit
 			{
 				var currentLesson = driver.FindElement(By.CssSelector("div.lesson"));
 
-				var addPupil = driver.FindElement(By.CssSelector("li:nth-child(3) > div"));
+				var addPupil = driver.FindElement(By.CssSelector("div.col.pupils-list-side-panel > div > ul > li:nth-child(3) > div"));
 				Actions actions = new Actions(driver);
 				actions.MoveToElement(addPupil);
 				actions.Perform();
